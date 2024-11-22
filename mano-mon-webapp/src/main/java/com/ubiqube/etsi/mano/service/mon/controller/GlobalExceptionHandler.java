@@ -21,7 +21,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
@@ -39,13 +38,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex, final HttpHeaders headers, final HttpStatusCode status, final WebRequest request) {
 		LOG.error(ex.getMessage(), ex);
 		return ResponseEntity.badRequest().body(ex.getBody());
-	}
-
-	@Override
-	@Nullable
-	protected ResponseEntity<Object> handleBindException(final BindException ex, final HttpHeaders headers, final HttpStatusCode status, final WebRequest request) {
-		LOG.error(ex.getMessage(), ex);
-		return super.handleBindException(ex, headers, status, request);
 	}
 
 	@Override

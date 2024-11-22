@@ -18,7 +18,6 @@
 		<dependency>
 			<groupId>com.ubiqube.mano.service.mon</groupId>
 			<artifactId>mano-mon-api</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>jakarta.jms</groupId>
@@ -30,7 +29,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.github.openstack4j.core.connectors</groupId>
-			<artifactId>ubi-openstack4j-httpclient</artifactId>
+			<artifactId>openstack4j-httpclient5</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
