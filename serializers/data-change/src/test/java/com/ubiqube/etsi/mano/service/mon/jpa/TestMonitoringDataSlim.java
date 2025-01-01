@@ -20,7 +20,7 @@ import java.time.OffsetDateTime;
 
 import com.ubiqube.etsi.mano.service.mon.data.MonitoringDataSlim;
 
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

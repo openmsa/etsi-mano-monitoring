@@ -30,7 +30,7 @@ import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
 import com.ubiqube.etsi.mano.service.mon.data.MonConnInformation;
 import com.ubiqube.etsi.mano.service.mon.dto.PollingJob;
 
-import jakarta.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
 
 @Service
 public class MonApiImpl implements MonApi {
@@ -44,7 +44,7 @@ public class MonApiImpl implements MonApi {
 	}
 
 	@Override
-	public BatchPollingJob register(final @Nonnull PollingJob pj) {
+	public BatchPollingJob register(final @NonNull PollingJob pj) {
 		final BatchPollingJob polling = PollingJobMapper.INSTANCE.fromDto(pj);
 		final Optional<MonConnInformation> conn = connRepository.findByConnId(pj.getConnection().getConnId());
 		if (conn.isEmpty()) {
@@ -59,7 +59,7 @@ public class MonApiImpl implements MonApi {
 	}
 
 	@Override
-	public void delete(final @Nonnull UUID id) {
+	public void delete(final @NonNull UUID id) {
 		pollingJobRepository.deleteById(id);
 	}
 
@@ -77,7 +77,7 @@ public class MonApiImpl implements MonApi {
 	}
 
 	@Override
-	public void deleteConnection(@Nonnull final UUID id) {
+	public void deleteConnection(@NonNull final UUID id) {
 		connRepository.deleteById(id);
 	}
 }

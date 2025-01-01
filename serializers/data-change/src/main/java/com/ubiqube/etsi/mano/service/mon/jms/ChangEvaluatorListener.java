@@ -30,7 +30,7 @@ import com.ubiqube.etsi.mano.mon.api.BusHelper;
 import com.ubiqube.etsi.mano.service.mon.data.JmsMetricHolder;
 import com.ubiqube.etsi.mano.service.mon.data.MonitoringDataSlim;
 
-import jakarta.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
 
 @Service
 public class ChangEvaluatorListener {
@@ -74,8 +74,8 @@ public class ChangEvaluatorListener {
 		dataBackend.updateMetric(slim);
 	}
 
-	@Nonnull
-	private String resolvQueueName(final @Nonnull String queueName) {
+	@NonNull
+	private String resolvQueueName(final @NonNull String queueName) {
 		final ConfigurableListableBeanFactory configurableListableBeanFactory = configurableApplicationContext.getBeanFactory();
 		final String ret = configurableListableBeanFactory.resolveEmbeddedValue(queueName);
 		Objects.requireNonNull(ret);

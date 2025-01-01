@@ -44,7 +44,7 @@ import com.ubiqube.etsi.mano.service.mon.data.JmsMetricHolder;
 import com.ubiqube.etsi.mano.service.mon.data.Metric;
 import com.ubiqube.etsi.mano.service.mon.data.MonitoringDataSlim;
 
-import jakarta.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
 
 public abstract class AbstractSnmpPoller<I extends InterfaceInfo, A extends AccessInfo> {
 	private static final Logger LOG = LoggerFactory.getLogger(AbstractSnmpPoller.class);
@@ -122,7 +122,7 @@ public abstract class AbstractSnmpPoller<I extends InterfaceInfo, A extends Acce
 		return 0;
 	}
 
-	@Nonnull
+	@NonNull
 	private String resolvQueueName(final String queueName) {
 		final ConfigurableListableBeanFactory configurableListableBeanFactory = configurableApplicationContext.getBeanFactory();
 		final String ret = configurableListableBeanFactory.resolveEmbeddedValue(queueName);

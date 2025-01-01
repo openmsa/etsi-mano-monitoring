@@ -42,7 +42,7 @@ import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
 import com.ubiqube.etsi.mano.service.mon.data.Metric;
 import com.ubiqube.etsi.mano.service.mon.data.MonConnInformation;
 
-import jakarta.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
 
 @Service
 public class SnmpPoller extends AbstractSnmpPoller<InterfaceInfo, SnmpV2AuthInfo> {
@@ -52,7 +52,7 @@ public class SnmpPoller extends AbstractSnmpPoller<InterfaceInfo, SnmpV2AuthInfo
 	}
 
 	@JmsListener(destination = Constants.QUEUE_SNMP_DATA_POLLING, concurrency = "5")
-	public void onEvent(@Nonnull final BatchPollingJob<InterfaceInfo, SnmpV2AuthInfo> batchPollingJob) {
+	public void onEvent(@NonNull final BatchPollingJob<InterfaceInfo, SnmpV2AuthInfo> batchPollingJob) {
 		getMetrics(batchPollingJob);
 	}
 

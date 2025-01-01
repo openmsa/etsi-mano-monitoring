@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.service.mon.jms;
 
 import com.ubiqube.etsi.mano.service.mon.data.MonitoringDataSlim;
 
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public interface DataBackend {
 	@Nullable

@@ -59,8 +59,8 @@ import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
 import com.ubiqube.etsi.mano.service.mon.data.Metric;
 import com.ubiqube.etsi.mano.service.mon.data.MonConnInformation;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 @Service
 public class Snmp3Poller extends AbstractSnmpPoller<InterfaceInfo, SnmpV3Auth> {
@@ -71,7 +71,7 @@ public class Snmp3Poller extends AbstractSnmpPoller<InterfaceInfo, SnmpV3Auth> {
 	}
 
 	@JmsListener(destination = Constants.QUEUE_SNMP3_DATA_POLLING, concurrency = "5")
-	public void onEvent(@Nonnull final BatchPollingJob<InterfaceInfo, SnmpV3Auth> batchPollingJob) {
+	public void onEvent(@NonNull final BatchPollingJob<InterfaceInfo, SnmpV3Auth> batchPollingJob) {
 		getMetrics(batchPollingJob);
 	}
 

@@ -20,7 +20,7 @@ import java.time.OffsetDateTime;
 
 import com.ubiqube.etsi.mano.service.mon.data.MonitoringDataSlim;
 
-import jakarta.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.Getter;
@@ -36,7 +36,7 @@ import lombok.ToString;
 @Getter
 @ToString
 public class TelemetryMetricsResult implements MonitoringDataSlim {
-	@Nonnull
+	@NonNull
 	private String masterJobId;
 
 	private String resourceId;
@@ -56,7 +56,7 @@ public class TelemetryMetricsResult implements MonitoringDataSlim {
 		// Nothing.
 	}
 
-	public TelemetryMetricsResult(@Nonnull final String masterJobId, final String resourceId, final String key, final Double value, final String txt, final OffsetDateTime timestamp, final boolean status) {
+	public TelemetryMetricsResult(@NonNull final String masterJobId, final String resourceId, final String key, final Double value, final String txt, final OffsetDateTime timestamp, final boolean status) {
 		this.masterJobId = masterJobId;
 		this.resourceId = resourceId;
 		this.key = key;

@@ -16,7 +16,7 @@
  */
 package com.ubiqube.etsi.mano.mon.api;
 
-import jakarta.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
 
 public class BusHelper {
 
@@ -26,8 +26,8 @@ public class BusHelper {
 		//
 	}
 
-	@Nonnull
-	public static String buildQueueName(@Nonnull final String busType) {
+	@NonNull
+	public static String buildQueueName(@NonNull final String busType) {
 		final String connQueue = busType.toLowerCase().replace("_", "-");
 		return "mano-mon.pollster." + connQueue;
 	}

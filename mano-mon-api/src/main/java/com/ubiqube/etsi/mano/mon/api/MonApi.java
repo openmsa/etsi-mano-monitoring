@@ -23,17 +23,17 @@ import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
 import com.ubiqube.etsi.mano.service.mon.data.MonConnInformation;
 import com.ubiqube.etsi.mano.service.mon.dto.PollingJob;
 
-import jakarta.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
 
 public interface MonApi {
 
-	BatchPollingJob register(@Nonnull PollingJob pj);
+	BatchPollingJob register(@NonNull PollingJob pj);
 
-	void delete(@Nonnull UUID id);
+	void delete(@NonNull UUID id);
 
 	List<BatchPollingJob> list();
 
 	List<MonConnInformation> listConnections();
 
-	void deleteConnection(@Nonnull UUID id);
+	void deleteConnection(@NonNull UUID id);
 }

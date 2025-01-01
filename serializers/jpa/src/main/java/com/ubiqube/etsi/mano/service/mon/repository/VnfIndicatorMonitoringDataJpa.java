@@ -22,7 +22,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.ubiqube.etsi.mano.service.mon.model.VnfIndicatorMonitoringData;
 
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public interface VnfIndicatorMonitoringDataJpa extends CrudRepository<VnfIndicatorMonitoringData, UUID> {
 	@Nullable

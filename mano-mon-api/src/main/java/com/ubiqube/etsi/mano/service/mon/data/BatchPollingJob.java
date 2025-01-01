@@ -23,7 +23,7 @@ import java.util.UUID;
 import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
 import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
 
-import jakarta.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -54,13 +54,13 @@ public class BatchPollingJob<I extends InterfaceInfo, A extends AccessInfo> {
 	/***
 	 * Resource Id to poll.
 	 */
-	@Nonnull
+	@NonNull
 	private String resourceId;
 
 	/**
 	 * Metrics to poll.
 	 */
-	@Nonnull
+	@NonNull
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Metric> metrics;
 

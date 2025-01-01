@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.service.mon.repository;
 
 import java.sql.Timestamp;
 
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  *

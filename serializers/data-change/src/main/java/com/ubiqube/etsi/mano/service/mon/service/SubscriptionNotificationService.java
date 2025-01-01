@@ -44,7 +44,7 @@ import com.ubiqube.etsi.mano.service.mon.jms.MetricChange;
 import com.ubiqube.etsi.mano.service.mon.model.MonSubscription;
 import com.ubiqube.etsi.mano.service.mon.repository.SubscriptionRepository;
 
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class SubscriptionNotificationService {
 	private static final Logger LOG = LoggerFactory.getLogger(SubscriptionNotificationService.class);

@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.ubiqube.etsi.mano.mon.dao.TelemetryMetricsResult;
 
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@class")
 @JsonSubTypes(value = @Type(value = TelemetryMetricsResult.class, name = "telemetry"))

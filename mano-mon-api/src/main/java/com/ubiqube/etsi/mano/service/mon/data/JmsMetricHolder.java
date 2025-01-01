@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.service.mon.data;
 
 import java.util.List;
 
-import jakarta.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
 import lombok.Data;
 
 @Data
@@ -33,7 +33,7 @@ public class JmsMetricHolder {
 		this.metrics = metrics;
 	}
 
-	@Nonnull
+	@NonNull
 	public static JmsMetricHolder of(final List<MonitoringDataSlim> metrics) {
 		return new JmsMetricHolder(metrics);
 	}

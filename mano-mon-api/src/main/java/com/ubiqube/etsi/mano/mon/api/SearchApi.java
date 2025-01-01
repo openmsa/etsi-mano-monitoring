@@ -22,13 +22,13 @@ import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.service.mon.data.MonitoringDataSlim;
 
-import jakarta.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
 
 public interface SearchApi {
-	@Nonnull
-	List<MonitoringDataSlim> findByObjectIdAndKey(@Nonnull String instance, @Nonnull String object);
+	@NonNull
+	List<MonitoringDataSlim> findByObjectIdAndKey(@NonNull String instance, @NonNull String object);
 
-	@Nonnull
-	List<MonitoringDataSlim> search(@Nonnull MultiValueMap<String, String> params);
+	@NonNull
+	List<MonitoringDataSlim> search(@NonNull MultiValueMap<String, String> params);
 
 }
