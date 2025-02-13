@@ -106,7 +106,7 @@ public class ZabbixPoller {
 		if (-1 == pos) {
 			return 10050;
 		}
-		return Integer.parseInt(resourceId.substring(pos));
+		return Integer.parseInt(resourceId.substring(pos + 1));
 	}
 
 }
