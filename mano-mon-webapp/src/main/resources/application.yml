@@ -57,6 +57,7 @@ spring:
   boot:
     admin:
       client:
+        enabled: false
         username: admin
         password: admin
         url:
