@@ -27,13 +27,13 @@ import org.springframework.web.service.annotation.HttpExchange;
 
 import com.ubiqube.etsi.mano.mon.dao.TelemetryMetricsResult;
 
-import jakarta.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
 
 @HttpExchange(url = "/metrics", accept = "application/json", contentType = "application/json")
 public interface MetricsRemoteService {
 
 	@GetExchange
-	@Nonnull
+	@NonNull
 	ResponseEntity<List<TelemetryMetricsResult>> searchApi(@RequestParam final MultiValueMap<String, String> params);
 
 	@GetExchange("/{instance}/{subObject}")

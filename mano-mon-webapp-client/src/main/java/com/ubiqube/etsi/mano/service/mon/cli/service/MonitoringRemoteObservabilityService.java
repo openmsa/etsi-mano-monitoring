@@ -28,7 +28,7 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 import com.ubiqube.etsi.mano.service.mon.cli.MonitoringProperty;
 
 import io.micrometer.observation.ObservationRegistry;
-import jakarta.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
 
 /**
  *
@@ -38,9 +38,9 @@ import jakarta.annotation.Nonnull;
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnBean(ObservationRegistry.class)
 public class MonitoringRemoteObservabilityService extends AbstractMonitoringRemoteService {
-	@Nonnull
+	@NonNull
 	private final DefaultClientRequestObservationConvention oc;
-	@Nonnull
+	@NonNull
 	private final ObservationRegistry observationRegistry;
 	private final MonitoringProperty properties;
 

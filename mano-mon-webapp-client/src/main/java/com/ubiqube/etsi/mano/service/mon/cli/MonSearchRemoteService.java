@@ -27,7 +27,7 @@ import org.springframework.web.service.annotation.HttpExchange;
 
 import com.ubiqube.etsi.mano.service.mon.data.MonitoringDataSlim;
 
-import jakarta.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
 
 /**
  *
@@ -38,8 +38,8 @@ import jakarta.annotation.Nonnull;
 public interface MonSearchRemoteService {
 
 	@GetExchange
-	ResponseEntity<Void> search(@Nonnull @RequestParam MultiValueMap<String, String> requestParams);
+	ResponseEntity<Void> search(@NonNull @RequestParam MultiValueMap<String, String> requestParams);
 
 	@GetExchange("/{objectId}/{key}")
-	ResponseEntity<List<MonitoringDataSlim>> findByObjectIdAndKey(@PathVariable("objectId") @Nonnull final String objectId, @PathVariable @Nonnull String key);
+	ResponseEntity<List<MonitoringDataSlim>> findByObjectIdAndKey(@PathVariable("objectId") @NonNull final String objectId, @PathVariable @NonNull String key);
 }

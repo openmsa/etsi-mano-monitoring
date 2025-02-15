@@ -33,7 +33,7 @@ import com.ubiqube.etsi.mano.mon.api.MonApi;
 import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
 import com.ubiqube.etsi.mano.service.mon.dto.PollingJob;
 
-import jakarta.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
 import jakarta.validation.Valid;
 
 /**
@@ -52,7 +52,7 @@ public class PollingController {
 	}
 
 	@PostMapping
-	public ResponseEntity<BatchPollingJob> register(final @Valid @Nonnull @RequestBody PollingJob pj) {
+	public ResponseEntity<BatchPollingJob> register(final @Valid @NonNull @RequestBody PollingJob pj) {
 		final BatchPollingJob ret = monApi.register(pj);
 		return ResponseEntity.ok(ret);
 	}
@@ -64,7 +64,7 @@ public class PollingController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> delete(@PathVariable("id") @Nonnull final UUID id) {
+	public ResponseEntity<Void> delete(@PathVariable("id") @NonNull final UUID id) {
 		monApi.delete(id);
 		return ResponseEntity.ok().build();
 	}

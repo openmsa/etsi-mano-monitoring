@@ -30,18 +30,18 @@ import org.springframework.web.service.annotation.PostExchange;
 import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
 import com.ubiqube.etsi.mano.service.mon.dto.PollingJob;
 
-import jakarta.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
 import jakarta.validation.Valid;
 
 @HttpExchange(url = "/polling", accept = "application/json", contentType = "application/json")
 public interface MonPollingRemoteService {
 	@PostExchange
-	ResponseEntity<BatchPollingJob> register(final @Valid @Nonnull @RequestBody PollingJob pj);
+	ResponseEntity<BatchPollingJob> register(final @Valid @NonNull @RequestBody PollingJob pj);
 
 	@GetExchange
 	ResponseEntity<List<BatchPollingJob>> list();
 
 	@DeleteExchange("/{id}")
-	ResponseEntity<Void> delete(@PathVariable("id") @Nonnull final UUID id);
+	ResponseEntity<Void> delete(@PathVariable("id") @NonNull final UUID id);
 
 }
