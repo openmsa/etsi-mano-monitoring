@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.service.mon.jms;
 
 import java.util.Objects;
 
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -29,8 +30,6 @@ import org.springframework.stereotype.Service;
 import com.ubiqube.etsi.mano.mon.api.BusHelper;
 import com.ubiqube.etsi.mano.service.mon.data.JmsMetricHolder;
 import com.ubiqube.etsi.mano.service.mon.data.MonitoringDataSlim;
-
-import org.jspecify.annotations.NonNull;
 
 @Service
 public class ChangEvaluatorListener {
@@ -59,15 +58,16 @@ public class ChangEvaluatorListener {
 			updateMetric(result);
 			return;
 		}
-		final Double value = res.getValue();
-		final String text = res.getText();
-		if (((value != null) && (value.equals(result.getValue())))
-				|| ((text != null) && (text.equals(result.getText())))) {
+		if (equals(res, result)) {
 			return;
 		}
 		LOG.info("Metric change {}", res);
 		updateMetric(result);
 		jmsTemplate.convertAndSend(resolvQueueName(Constants.QUEUE_CHANGE_NOTIFICATION), new MetricChange(res, result));
+	}
+
+	private boolean equals(final MonitoringDataSlim res, final MonitoringDataSlim result) {
+		return (Objects.equals(res.getValue(), result.getValue()) && Objects.equals(res.getText(), result.getText()));
 	}
 
 	private void updateMetric(final MonitoringDataSlim slim) {
