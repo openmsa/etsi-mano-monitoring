@@ -84,6 +84,11 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>com.ubiqube.mano.service.mon.poller</groupId>
+			<artifactId>mano-zabbix-poller</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>com.ubiqube.mano.service.mon.ser</groupId>
 			<artifactId>data-change</artifactId>
 			<version>${project.version}</version>
