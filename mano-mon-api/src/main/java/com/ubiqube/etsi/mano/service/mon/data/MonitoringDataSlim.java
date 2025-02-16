@@ -18,12 +18,12 @@ package com.ubiqube.etsi.mano.service.mon.data;
 
 import java.time.OffsetDateTime;
 
+import org.jspecify.annotations.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.ubiqube.etsi.mano.mon.dao.TelemetryMetricsResult;
-
-import org.jspecify.annotations.Nullable;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@class")
 @JsonSubTypes(value = @Type(value = TelemetryMetricsResult.class, name = "telemetry"))
@@ -41,6 +41,8 @@ public interface MonitoringDataSlim {
 
 	@Nullable
 	String getText();
+
+	boolean isError();
 
 	void setValue(Double percent);
 

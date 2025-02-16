@@ -21,6 +21,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
 import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
 
@@ -41,12 +43,13 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+@JsonTypeInfo(include = As.WRAPPER_OBJECT, use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.CLASS)
+//@MappedSuperclass
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class MonConnInformation<I extends InterfaceInfo, A extends AccessInfo> implements Serializable {
 	private static final long serialVersionUID = 1L;
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
@@ -59,10 +62,10 @@ public class MonConnInformation<I extends InterfaceInfo, A extends AccessInfo> i
 
 	private String name;
 
-	@OneToOne(targetEntity = InterfaceInfo.class)
+	@OneToOne(targetEntity = InterfaceInfo.class, cascade = CascadeType.ALL)
 	private I interfaceInfo;
 
-	@OneToOne(targetEntity = AccessInfo.class)
+	@OneToOne(targetEntity = AccessInfo.class, cascade = CascadeType.ALL)
 	private A accessInfo;
 
 	@ElementCollection(fetch = FetchType.EAGER)

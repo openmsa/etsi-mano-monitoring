@@ -21,16 +21,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.mon.api.MonApi;
-import com.ubiqube.etsi.mano.mon.core.mapper.ConnectionInfoMapper;
 import com.ubiqube.etsi.mano.mon.core.mapper.PollingJobMapper;
+import com.ubiqube.etsi.mano.mon.poller.ConnectionDeclaration;
 import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
 import com.ubiqube.etsi.mano.service.mon.data.MonConnInformation;
 import com.ubiqube.etsi.mano.service.mon.dto.PollingJob;
-
-import org.jspecify.annotations.NonNull;
 
 @Service
 public class MonApiImpl implements MonApi {
@@ -38,9 +37,15 @@ public class MonApiImpl implements MonApi {
 
 	private final ConnectionInformationService connRepository;
 
-	public MonApiImpl(final PollingJobService pollingJobRepository, final ConnectionInformationService connRepository) {
+	private final List<ConnectionDeclaration> connectionDeclarations;
+
+	private final List<String> availableConnections;
+
+	public MonApiImpl(final PollingJobService pollingJobRepository, final ConnectionInformationService connRepository, final List<ConnectionDeclaration> connectionDeclarations) {
 		this.pollingJobRepository = pollingJobRepository;
 		this.connRepository = connRepository;
+		this.connectionDeclarations = connectionDeclarations;
+		this.availableConnections = connectionDeclarations.stream().map(ConnectionDeclaration::getType).toList();
 	}
 
 	@Override
@@ -48,7 +53,8 @@ public class MonApiImpl implements MonApi {
 		final BatchPollingJob polling = PollingJobMapper.INSTANCE.fromDto(pj);
 		final Optional<MonConnInformation> conn = connRepository.findByConnId(pj.getConnection().getConnId());
 		if (conn.isEmpty()) {
-			final MonConnInformation connInfo = ConnectionInfoMapper.INSTANCE.fromDto(pj.getConnection());
+			final MonConnInformation connInfo = polling.getConnection();
+			verifyConnectionType(connInfo);
 			final MonConnInformation newConn = connRepository.save(connInfo);
 			polling.setConnection(newConn);
 		} else {
@@ -56,6 +62,14 @@ public class MonApiImpl implements MonApi {
 		}
 
 		return pollingJobRepository.save(polling);
+	}
+
+	private void verifyConnectionType(final MonConnInformation connInfo) {
+		final String type = connInfo.getConnType();
+		final boolean found = connectionDeclarations.stream().anyMatch(c -> c.getType().equals(type));
+		if (!found) {
+			throw new IllegalArgumentException("Connection type not supported: " + type + ". Available connections: " + availableConnections);
+		}
 	}
 
 	@Override

@@ -18,9 +18,10 @@ package com.ubiqube.etsi.mano.service.mon.dto;
 
 import java.util.List;
 
+import org.jspecify.annotations.NonNull;
+
 import com.ubiqube.etsi.mano.service.mon.data.Metric;
 
-import org.jspecify.annotations.NonNull;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
@@ -55,6 +56,7 @@ public class PollingJob {
 	@Min(1)
 	private long interval;
 
+	private String connType;
 	@NotNull
 	@NonNull
 	private ConnInfo connection;

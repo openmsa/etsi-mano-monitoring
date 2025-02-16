@@ -18,9 +18,10 @@ package com.ubiqube.etsi.mano.service.mon.jpa;
 
 import java.time.OffsetDateTime;
 
+import org.jspecify.annotations.Nullable;
+
 import com.ubiqube.etsi.mano.service.mon.data.MonitoringDataSlim;
 
-import org.jspecify.annotations.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,4 +38,6 @@ public class TestMonitoringDataSlim implements MonitoringDataSlim {
 	private Double value;
 	@Nullable
 	private String text;
+
+	private boolean error;
 }

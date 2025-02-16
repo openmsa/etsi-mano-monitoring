@@ -19,28 +19,46 @@ package com.ubiqube.etsi.mano.service.mon.dto;
 import java.util.Map;
 import java.util.UUID;
 
-import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
-import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.ubiqube.etsi.mano.service.mon.data.MonConnInformation;
 
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.FetchType;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", defaultImpl = MonConnInformation.class, visible = true)
+@JsonSubTypes({
+		@JsonSubTypes.Type(value = KeystoneV3.class, name = "openstack-v3"),
+		@JsonSubTypes.Type(value = SnmpV2.class, name = "snmp"),
+		@JsonSubTypes.Type(value = SnmpV3.class, name = "snmp3"),
+		@JsonSubTypes.Type(value = SnmpV2.class, name = "zabbix-v1")
+})
 public class ConnInfo {
 	@NotNull
 	private UUID connId;
-
+	@NotNull
 	private String type;
 
 	private String name;
 
-	private InterfaceInfo interfaceInfo;
+	private String endpoint;
 
-	private AccessInfo accessInfo;
+	@JsonProperty("connection-timeout")
+	private int connectionTimeout = 5_000;
 
-	@ElementCollection(fetch = FetchType.EAGER)
+	/**
+	 * Read timeout in millisecondes.
+	 */
+	@JsonProperty("read-timeout")
+	private int readTimeout = 5_000;
+
+	/**
+	 * Retry on failure.
+	 */
+	private int retry = 5;
+
 	private Map<String, String> extra;
 
 	private boolean ignoreSsl;

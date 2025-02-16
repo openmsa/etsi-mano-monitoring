@@ -20,13 +20,18 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+import com.ubiqube.etsi.mano.dao.mano.ai.KeystoneAuthV3;
+import com.ubiqube.etsi.mano.dao.mano.ii.OpenstackV3InterfaceInfo;
 import com.ubiqube.etsi.mano.service.mon.data.MonConnInformation;
 import com.ubiqube.etsi.mano.service.mon.dto.ConnInfo;
+import com.ubiqube.etsi.mano.service.mon.dto.KeystoneV3;
 
 @Mapper
 public interface ConnectionInfoMapper {
 	ConnectionInfoMapper INSTANCE = Mappers.getMapper(ConnectionInfoMapper.class);
 
+	@Mapping(target = "accessInfo", ignore = true)
+	@Mapping(target = "interfaceInfo", ignore = true)
 	@Mapping(target = "failureDetails", ignore = true)
 	@Mapping(target = "id", ignore = true)
 	@Mapping(target = "serverStatus", ignore = true)
@@ -34,4 +39,19 @@ public interface ConnectionInfoMapper {
 	@Mapping(source = "connId", target = "connId")
 	@Mapping(source = "type", target = "connType")
 	MonConnInformation fromDto(ConnInfo ci);
+
+	@Mapping(target = "accessInfo.region", source = "region")
+	@Mapping(target = "accessInfo.project", source = "project")
+	@Mapping(target = "accessInfo.projectDomain", source = "projectDomain")
+	@Mapping(target = "accessInfo.userDomain", source = "userDomain")
+	@Mapping(target = "accessInfo.projectId", source = "projectId")
+	@Mapping(target = "accessInfo.username", source = "username")
+	@Mapping(target = "accessInfo.password", source = "password")
+	@Mapping(target = "connType", ignore = true)
+	@Mapping(target = "failureDetails", ignore = true)
+	@Mapping(target = "id", ignore = true)
+	@Mapping(target = "interfaceInfo", ignore = true)
+	@Mapping(target = "serverStatus", ignore = true)
+	@Mapping(target = "version", ignore = true)
+	MonConnInformation<OpenstackV3InterfaceInfo, KeystoneAuthV3> fromDto(KeystoneV3 ci);
 }

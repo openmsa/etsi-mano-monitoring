@@ -55,7 +55,7 @@ class ChangEvaluatorListenerTest {
 	@Test
 	void testBasic() {
 		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(dataBackend, jmsTemplate, configurableApplicationContext);
-		final MonitoringDataSlim result = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "res", "key2", 123D, null);
+		final MonitoringDataSlim result = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "res", "key2", 123D, null, false);
 		assertNotNull(result);
 		final JmsMetricHolder param = new JmsMetricHolder();
 		param.setMetrics(List.of());
@@ -66,7 +66,7 @@ class ChangEvaluatorListenerTest {
 	@Test
 	void testOneElement() {
 		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(dataBackend, jmsTemplate, configurableApplicationContext);
-		final MonitoringDataSlim result = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", "res", 123D, null);
+		final MonitoringDataSlim result = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", "res", 123D, null, false);
 		//
 		when(dataBackend.getLastMetrics("key2", "masterJobId2")).thenReturn(null);
 		final JmsMetricHolder param = new JmsMetricHolder();
@@ -78,8 +78,8 @@ class ChangEvaluatorListenerTest {
 	@Test
 	void testSameOnValue() {
 		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(dataBackend, jmsTemplate, configurableApplicationContext);
-		final MonitoringDataSlim result = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", "res", 123D, null);
-		final MonitoringDataSlim result2 = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", "res", 123D, null);
+		final MonitoringDataSlim result = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", "res", 123D, null, false);
+		final MonitoringDataSlim result2 = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", "res", 123D, null, false);
 		//
 		when(dataBackend.getLastMetrics("key2", "masterJobId2")).thenReturn(result2);
 		final JmsMetricHolder param = new JmsMetricHolder();
@@ -91,8 +91,8 @@ class ChangEvaluatorListenerTest {
 	@Test
 	void testDiffOnValue() throws Exception {
 		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(dataBackend, jmsTemplate, configurableApplicationContext);
-		final MonitoringDataSlim result = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", "res", 123D, null);
-		final MonitoringDataSlim result2 = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", "res", 456D, null);
+		final MonitoringDataSlim result = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", "res", 123D, null, false);
+		final MonitoringDataSlim result2 = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", "res", 456D, null, false);
 		//
 		when(dataBackend.getLastMetrics("key2", "masterJobId2")).thenReturn(result2);
 		final ArgumentCaptor<Object> valueCapture = ArgumentCaptor.forClass(Object.class);
@@ -108,8 +108,8 @@ class ChangEvaluatorListenerTest {
 	@Test
 	void testSameOnText() {
 		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(dataBackend, jmsTemplate, configurableApplicationContext);
-		final MonitoringDataSlim result = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", "res", null, "Hello");
-		final MonitoringDataSlim result2 = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", "res", null, "Hello");
+		final MonitoringDataSlim result = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", "res", null, "Hello", false);
+		final MonitoringDataSlim result2 = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", "res", null, "Hello", false);
 		//
 		when(dataBackend.getLastMetrics("key2", "masterJobId2")).thenReturn(result2);
 		final JmsMetricHolder param = new JmsMetricHolder();
@@ -121,8 +121,8 @@ class ChangEvaluatorListenerTest {
 	@Test
 	void testDiffOnText() throws Exception {
 		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(dataBackend, jmsTemplate, configurableApplicationContext);
-		final MonitoringDataSlim result = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", "res", null, "Hello22");
-		final MonitoringDataSlim result2 = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", "res", null, "Hello");
+		final MonitoringDataSlim result = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", "res", null, "Hello22", false);
+		final MonitoringDataSlim result2 = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", "res", null, "Hello", false);
 		//
 		when(dataBackend.getLastMetrics("key2", "masterJobId2")).thenReturn(result2);
 		final ArgumentCaptor<Object> valueCapture = ArgumentCaptor.forClass(Object.class);

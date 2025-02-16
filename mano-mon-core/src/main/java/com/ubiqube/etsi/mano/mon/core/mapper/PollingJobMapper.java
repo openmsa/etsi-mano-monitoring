@@ -16,14 +16,27 @@
  */
 package com.ubiqube.etsi.mano.mon.core.mapper;
 
+import org.jspecify.annotations.Nullable;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
+import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
+import com.ubiqube.etsi.mano.dao.mano.ai.KeystoneAuthV3;
+import com.ubiqube.etsi.mano.dao.mano.ai.SnmpV3Auth;
+import com.ubiqube.etsi.mano.dao.mano.ii.OpenstackV3InterfaceInfo;
 import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
 import com.ubiqube.etsi.mano.service.mon.data.MonConnInformation;
+import com.ubiqube.etsi.mano.service.mon.data.MonKeystoneV3;
+import com.ubiqube.etsi.mano.service.mon.data.MonSnmpV2;
+import com.ubiqube.etsi.mano.service.mon.data.MonSnmpV3;
 import com.ubiqube.etsi.mano.service.mon.dto.ConnInfo;
+import com.ubiqube.etsi.mano.service.mon.dto.KeystoneV3;
 import com.ubiqube.etsi.mano.service.mon.dto.PollingJob;
+import com.ubiqube.etsi.mano.service.mon.dto.SnmpV2;
+import com.ubiqube.etsi.mano.service.mon.dto.SnmpV3;
+import com.ubiqube.etsi.mano.service.mon.poller.snmp.SnmpV2AuthInfo;
 
 @Mapper
 public interface PollingJobMapper {
@@ -33,11 +46,49 @@ public interface PollingJobMapper {
 	@Mapping(target = "lastRun", ignore = true)
 	BatchPollingJob fromDto(PollingJob pj);
 
+	@Mapping(target = "interfaceInfo", ignore = true)
 	@Mapping(target = "failureDetails", ignore = true)
 	@Mapping(target = "id", ignore = true)
 	@Mapping(target = "serverStatus", ignore = true)
 	@Mapping(target = "version", ignore = true)
 	@Mapping(source = "connId", target = "connId")
 	@Mapping(source = "type", target = "connType")
-	MonConnInformation fromDto(ConnInfo ci);
+	@Nullable
+	default MonConnInformation fromDto(@Nullable final ConnInfo ci) {
+		if (null == ci) {
+			return null;
+		}
+		MonConnInformation conn = new MonConnInformation();
+		if (ci instanceof KeystoneV3 keystone) {
+			conn = new MonKeystoneV3();
+			AccessInfo ai = map(keystone);
+			InterfaceInfo ii = new OpenstackV3InterfaceInfo();
+			ii.setEndpoint(ci.getEndpoint());
+			conn.setInterfaceInfo(ii);
+			conn.setAccessInfo(ai);
+		} else if (ci instanceof final SnmpV2 snmp) {
+			conn = new MonSnmpV2();
+			InterfaceInfo ii = new InterfaceInfo();
+			ii.setEndpoint(ci.getEndpoint());
+			conn.setInterfaceInfo(ii);
+			conn.setAccessInfo(mapSnmpv2(snmp));
+		} else if (ci instanceof final SnmpV3 snmp) {
+			conn = new MonSnmpV3();
+			InterfaceInfo ii = new InterfaceInfo();
+			ii.setEndpoint(ci.getEndpoint());
+			conn.setInterfaceInfo(ii);
+			conn.setAccessInfo(mapSnmpv3(snmp));
+		}
+		conn.setConnId(ci.getConnId());
+		conn.setConnType(ci.getType());
+		conn.setName(ci.getName());
+		return conn;
+	}
+
+	SnmpV2AuthInfo mapSnmpv2(SnmpV2 snmp);
+
+	SnmpV3Auth mapSnmpv3(SnmpV3 snmp);
+
+	KeystoneAuthV3 map(KeystoneV3 keystone);
+
 }

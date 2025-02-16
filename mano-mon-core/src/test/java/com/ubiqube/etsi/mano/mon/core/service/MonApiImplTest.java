@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -27,6 +28,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.ubiqube.etsi.mano.mon.poller.ConnectionDeclaration;
 import com.ubiqube.etsi.mano.service.mon.data.MonConnInformation;
 import com.ubiqube.etsi.mano.service.mon.dto.ConnInfo;
 import com.ubiqube.etsi.mano.service.mon.dto.PollingJob;
@@ -38,12 +40,18 @@ class MonApiImplTest {
 	@Mock
 	private PollingJobService pollingJobRepo;
 
+	private MonApiImpl extracted() {
+		ConnectionDeclaration cd = new TestConnectionDeclaration();
+		return new MonApiImpl(pollingJobRepo, connRepo, List.of(cd));
+	}
+
 	@Test
 	void testRegister() {
-		final MonApiImpl api = new MonApiImpl(pollingJobRepo, connRepo);
+		final MonApiImpl api = extracted();
 		final PollingJob pj = new PollingJob();
 		pj.setResourceId("r");
 		final ConnInfo connInfo = new ConnInfo();
+		connInfo.setType("conn-test");
 		pj.setConnection(connInfo);
 		api.register(pj);
 		assertTrue(true);
@@ -51,7 +59,7 @@ class MonApiImplTest {
 
 	@Test
 	void testRegisterAllready() {
-		final MonApiImpl api = new MonApiImpl(pollingJobRepo, connRepo);
+		final MonApiImpl api = extracted();
 		final PollingJob pj = new PollingJob();
 		final ConnInfo connInfo = new ConnInfo();
 		pj.setConnection(connInfo);
@@ -64,28 +72,28 @@ class MonApiImplTest {
 
 	@Test
 	void testDelete() {
-		final MonApiImpl api = new MonApiImpl(pollingJobRepo, connRepo);
+		final MonApiImpl api = extracted();
 		api.delete(null);
 		assertTrue(true);
 	}
 
 	@Test
 	void testList() {
-		final MonApiImpl api = new MonApiImpl(pollingJobRepo, connRepo);
+		final MonApiImpl api = extracted();
 		api.list();
 		assertTrue(true);
 	}
 
 	@Test
 	void testlistConnections() {
-		final MonApiImpl api = new MonApiImpl(pollingJobRepo, connRepo);
+		final MonApiImpl api = extracted();
 		api.listConnections();
 		assertTrue(true);
 	}
 
 	@Test
 	void testDeleteConnection() {
-		final MonApiImpl api = new MonApiImpl(pollingJobRepo, connRepo);
+		final MonApiImpl api = extracted();
 		api.deleteConnection(null);
 		assertTrue(true);
 	}
