@@ -18,9 +18,10 @@ package com.ubiqube.etsi.mano.mon.dao;
 
 import java.time.OffsetDateTime;
 
+import org.jspecify.annotations.NonNull;
+
 import com.ubiqube.etsi.mano.service.mon.data.MonitoringDataSlim;
 
-import org.jspecify.annotations.NonNull;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.Getter;
@@ -47,22 +48,22 @@ public class TelemetryMetricsResult implements MonitoringDataSlim {
 
 	private String text;
 
+	private boolean error;
+
 	@Temporal(TemporalType.TIMESTAMP)
 	private OffsetDateTime time;
-
-	private boolean status;
 
 	public TelemetryMetricsResult() {
 		// Nothing.
 	}
 
-	public TelemetryMetricsResult(@NonNull final String masterJobId, final String resourceId, final String key, final Double value, final String txt, final OffsetDateTime timestamp, final boolean status) {
+	public TelemetryMetricsResult(@NonNull final String masterJobId, final String resourceId, final String key, final Double value, final String txt, final OffsetDateTime timestamp, final boolean error) {
 		this.masterJobId = masterJobId;
 		this.resourceId = resourceId;
 		this.key = key;
 		this.value = value;
 		this.time = timestamp;
-		this.status = status;
+		this.error = error;
 		this.text = txt;
 	}
 
