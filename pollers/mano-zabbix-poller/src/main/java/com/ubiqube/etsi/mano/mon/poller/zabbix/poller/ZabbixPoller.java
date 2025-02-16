@@ -71,8 +71,12 @@ public class ZabbixPoller {
 
 	private TelemetryMetricsResult map(final BatchPollingJob<InterfaceInfo, AccessInfo> pj, final String host, final int port, final Metric x) {
 		try {
-			final TelemetryMetricsResult tmr = new TelemetryMetricsResult(pj.getId().toString(), pj.getResourceId(), x.getMetricName(), null, null, OffsetDateTime.now(), false);
+			final TelemetryMetricsResult tmr = new TelemetryMetricsResult(pj.getId().toString(), pj.getResourceId(), x.getMetricName(), null, null, OffsetDateTime.now(), true);
 			final List<String> res = zmq.result(host, port, x.getMetricName());
+			if (!isSupported(res)) {
+				tmr.setError(true);
+				return tmr;
+			}
 			if ((x.getType() != null) && "numeric".equalsIgnoreCase(x.getType())) {
 				tmr.setValue(Double.valueOf(res.get(0)));
 			} else {
@@ -81,8 +85,15 @@ public class ZabbixPoller {
 			return tmr;
 		} catch (final RuntimeException e) {
 			LOG.warn("Error while fetching {}", host, e);
-			return new TelemetryMetricsResult(pj.getId().toString(), pj.getResourceId(), x.getMetricName(), null, e.getMessage(), OffsetDateTime.now(), false);
+			return new TelemetryMetricsResult(pj.getId().toString(), pj.getResourceId(), x.getMetricName(), null, null, OffsetDateTime.now(), false);
 		}
+	}
+
+	private boolean isSupported(final List<String> res) {
+		if (res.isEmpty() || "ZBX_NOTSUPPORTED".equals(res.get(0))) {
+			return false;
+		}
+		return true;
 	}
 
 	private String resolvQueueName(final String queueName) {
