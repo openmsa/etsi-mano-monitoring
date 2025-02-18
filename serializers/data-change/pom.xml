@@ -32,6 +32,11 @@
 			<artifactId>mano-mon-api</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>com.ubiqube.mano.service.mon</groupId>
+			<artifactId>mano-mon-entities</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-fluxrest</artifactId>
 		</dependency>
