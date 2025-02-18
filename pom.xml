@@ -19,6 +19,7 @@
 		<module>serializers</module>
 		<module>logm</module>
 		<module>mano-mon-webapp-client</module>
+		<module>mano-mon-entities</module>
 	</modules>
 	<properties>
 		<maven.compiler.target>21</maven.compiler.target>
