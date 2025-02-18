@@ -19,7 +19,7 @@ package com.ubiqube.etsi.mano.mon.core.mapper;
 import org.jspecify.annotations.Nullable;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
+import org.springframework.stereotype.Component;
 
 import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
 import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
@@ -38,9 +38,9 @@ import com.ubiqube.etsi.mano.service.mon.dto.SnmpV2;
 import com.ubiqube.etsi.mano.service.mon.dto.SnmpV3;
 import com.ubiqube.etsi.mano.service.mon.poller.snmp.SnmpV2AuthInfo;
 
-@Mapper
+@Component
+@Mapper(componentModel = "spring")
 public interface PollingJobMapper {
-	PollingJobMapper INSTANCE = Mappers.getMapper(PollingJobMapper.class);
 
 	@Mapping(target = "id", ignore = true)
 	@Mapping(target = "lastRun", ignore = true)

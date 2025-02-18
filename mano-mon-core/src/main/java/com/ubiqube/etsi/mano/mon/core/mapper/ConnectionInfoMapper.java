@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.mon.core.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
+import org.springframework.stereotype.Component;
 
 import com.ubiqube.etsi.mano.dao.mano.ai.KeystoneAuthV3;
 import com.ubiqube.etsi.mano.dao.mano.ii.OpenstackV3InterfaceInfo;
@@ -26,9 +26,9 @@ import com.ubiqube.etsi.mano.service.mon.data.MonConnInformation;
 import com.ubiqube.etsi.mano.service.mon.dto.ConnInfo;
 import com.ubiqube.etsi.mano.service.mon.dto.KeystoneV3;
 
-@Mapper
+@Component
+@Mapper(componentModel = "spring")
 public interface ConnectionInfoMapper {
-	ConnectionInfoMapper INSTANCE = Mappers.getMapper(ConnectionInfoMapper.class);
 
 	@Mapping(target = "accessInfo", ignore = true)
 	@Mapping(target = "interfaceInfo", ignore = true)

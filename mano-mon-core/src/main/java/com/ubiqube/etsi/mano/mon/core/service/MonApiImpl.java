@@ -41,16 +41,19 @@ public class MonApiImpl implements MonApi {
 
 	private final List<String> availableConnections;
 
-	public MonApiImpl(final PollingJobService pollingJobRepository, final ConnectionInformationService connRepository, final List<ConnectionDeclaration> connectionDeclarations) {
+	private final PollingJobMapper pollingJobMapper;
+
+	public MonApiImpl(final PollingJobService pollingJobRepository, final ConnectionInformationService connRepository, final List<ConnectionDeclaration> connectionDeclarations, final PollingJobMapper pollingJobMapper) {
 		this.pollingJobRepository = pollingJobRepository;
 		this.connRepository = connRepository;
 		this.connectionDeclarations = connectionDeclarations;
 		this.availableConnections = connectionDeclarations.stream().map(ConnectionDeclaration::getType).toList();
+		this.pollingJobMapper = pollingJobMapper;
 	}
 
 	@Override
 	public BatchPollingJob register(final @NonNull PollingJob pj) {
-		final BatchPollingJob polling = PollingJobMapper.INSTANCE.fromDto(pj);
+		final BatchPollingJob polling = pollingJobMapper.fromDto(pj);
 		final Optional<MonConnInformation> conn = connRepository.findByConnId(pj.getConnection().getConnId());
 		if (conn.isEmpty()) {
 			final MonConnInformation connInfo = polling.getConnection();

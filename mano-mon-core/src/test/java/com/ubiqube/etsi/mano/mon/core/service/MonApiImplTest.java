@@ -25,9 +25,11 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.ubiqube.etsi.mano.mon.core.mapper.PollingJobMapper;
 import com.ubiqube.etsi.mano.mon.poller.ConnectionDeclaration;
 import com.ubiqube.etsi.mano.service.mon.data.MonConnInformation;
 import com.ubiqube.etsi.mano.service.mon.dto.ConnInfo;
@@ -39,10 +41,11 @@ class MonApiImplTest {
 	private ConnectionInformationService connRepo;
 	@Mock
 	private PollingJobService pollingJobRepo;
+	private final PollingJobMapper pollMapper = Mappers.getMapper(PollingJobMapper.class);
 
 	private MonApiImpl extracted() {
 		ConnectionDeclaration cd = new TestConnectionDeclaration();
-		return new MonApiImpl(pollingJobRepo, connRepo, List.of(cd));
+		return new MonApiImpl(pollingJobRepo, connRepo, List.of(cd), pollMapper);
 	}
 
 	@Test
