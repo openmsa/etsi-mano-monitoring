@@ -25,10 +25,14 @@ import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.mon.api.MonApi;
+import com.ubiqube.etsi.mano.mon.api.entities.BatchPollingJobDto;
 import com.ubiqube.etsi.mano.mon.core.mapper.PollingJobMapper;
+import com.ubiqube.etsi.mano.mon.core.service.mapper.BatchPollingJobMapper;
+import com.ubiqube.etsi.mano.mon.core.service.mapper.MonConnInformationMapper;
 import com.ubiqube.etsi.mano.mon.poller.ConnectionDeclaration;
 import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
 import com.ubiqube.etsi.mano.service.mon.data.MonConnInformation;
+import com.ubiqube.etsi.mano.service.mon.dto.MonConnInformationDto;
 import com.ubiqube.etsi.mano.service.mon.dto.PollingJob;
 
 @Service
@@ -43,16 +47,23 @@ public class MonApiImpl implements MonApi {
 
 	private final PollingJobMapper pollingJobMapper;
 
-	public MonApiImpl(final PollingJobService pollingJobRepository, final ConnectionInformationService connRepository, final List<ConnectionDeclaration> connectionDeclarations, final PollingJobMapper pollingJobMapper) {
+	private final MonConnInformationMapper monConnInformationMapper;
+
+	private final BatchPollingJobMapper batchPollingJobMapper;
+
+	public MonApiImpl(final PollingJobService pollingJobRepository, final ConnectionInformationService connRepository, final List<ConnectionDeclaration> connectionDeclarations, final PollingJobMapper pollingJobMapper,
+			final MonConnInformationMapper monConnInformationMapper, final BatchPollingJobMapper batchPollingJobMapper) {
 		this.pollingJobRepository = pollingJobRepository;
 		this.connRepository = connRepository;
 		this.connectionDeclarations = connectionDeclarations;
 		this.availableConnections = connectionDeclarations.stream().map(ConnectionDeclaration::getType).toList();
 		this.pollingJobMapper = pollingJobMapper;
+		this.monConnInformationMapper = monConnInformationMapper;
+		this.batchPollingJobMapper = batchPollingJobMapper;
 	}
 
 	@Override
-	public BatchPollingJob register(final @NonNull PollingJob pj) {
+	public BatchPollingJobDto register(final @NonNull PollingJob pj) {
 		final BatchPollingJob polling = pollingJobMapper.fromDto(pj);
 		final Optional<MonConnInformation> conn = connRepository.findByConnId(pj.getConnection().getConnId());
 		if (conn.isEmpty()) {
@@ -64,7 +75,7 @@ public class MonApiImpl implements MonApi {
 			polling.setConnection(conn.get());
 		}
 
-		return pollingJobRepository.save(polling);
+		return batchPollingJobMapper.fromEntity(pollingJobRepository.save(polling));
 	}
 
 	private void verifyConnectionType(final MonConnInformation connInfo) {
@@ -81,16 +92,16 @@ public class MonApiImpl implements MonApi {
 	}
 
 	@Override
-	public List<BatchPollingJob> list() {
+	public List<BatchPollingJobDto> list() {
 		final List<BatchPollingJob> ret = new ArrayList<>();
 		final Iterable<BatchPollingJob> ite = pollingJobRepository.findAll();
 		ite.forEach(ret::add);
-		return ret;
+		return batchPollingJobMapper.fromEntity(ret);
 	}
 
 	@Override
-	public List<MonConnInformation> listConnections() {
-		return connRepository.findAll();
+	public List<MonConnInformationDto> listConnections() {
+		return monConnInformationMapper.map(connRepository.findAll());
 	}
 
 	@Override
