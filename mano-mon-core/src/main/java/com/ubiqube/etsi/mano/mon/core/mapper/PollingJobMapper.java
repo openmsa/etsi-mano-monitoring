@@ -53,6 +53,7 @@ public interface PollingJobMapper {
 	@Mapping(target = "version", ignore = true)
 	@Mapping(source = "connId", target = "connId")
 	@Mapping(source = "type", target = "connType")
+
 	@Nullable
 	default MonConnInformation fromDto(@Nullable final ConnInfo ci) {
 		if (null == ci) {
