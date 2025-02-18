@@ -19,6 +19,7 @@ package com.ubiqube.etsi.mano.service.mon.controller;
 import java.util.List;
 import java.util.UUID;
 
+import org.jspecify.annotations.NonNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,10 +31,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ubiqube.etsi.mano.mon.api.MonApi;
-import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
+import com.ubiqube.etsi.mano.mon.api.entities.BatchPollingJobDto;
 import com.ubiqube.etsi.mano.service.mon.dto.PollingJob;
 
-import org.jspecify.annotations.NonNull;
 import jakarta.validation.Valid;
 
 /**
@@ -52,14 +52,14 @@ public class PollingController {
 	}
 
 	@PostMapping
-	public ResponseEntity<BatchPollingJob> register(final @Valid @NonNull @RequestBody PollingJob pj) {
-		final BatchPollingJob ret = monApi.register(pj);
+	public ResponseEntity<BatchPollingJobDto> register(final @Valid @NonNull @RequestBody PollingJob pj) {
+		final BatchPollingJobDto ret = monApi.register(pj);
 		return ResponseEntity.ok(ret);
 	}
 
 	@GetMapping
-	public ResponseEntity<List<BatchPollingJob>> list() {
-		final List<BatchPollingJob> ret = monApi.list();
+	public ResponseEntity<List<BatchPollingJobDto>> list() {
+		final List<BatchPollingJobDto> ret = monApi.list();
 		return ResponseEntity.ok(ret);
 	}
 

@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ubiqube.etsi.mano.mon.api.MonApi;
-import com.ubiqube.etsi.mano.service.mon.data.MonConnInformation;
+import com.ubiqube.etsi.mano.service.mon.dto.MonConnInformationDto;
 
 import jakarta.validation.constraints.NotNull;
 
@@ -47,7 +47,7 @@ public class ConnectionController {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<MonConnInformation>> list() {
+	public ResponseEntity<List<MonConnInformationDto>> list() {
 		return ResponseEntity.ok(monApi.listConnections());
 	}
 }
