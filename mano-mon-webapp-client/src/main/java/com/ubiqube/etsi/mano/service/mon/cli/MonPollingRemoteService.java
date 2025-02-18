@@ -19,6 +19,7 @@ package com.ubiqube.etsi.mano.service.mon.cli;
 import java.util.List;
 import java.util.UUID;
 
+import org.jspecify.annotations.NonNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,19 +28,18 @@ import org.springframework.web.service.annotation.GetExchange;
 import org.springframework.web.service.annotation.HttpExchange;
 import org.springframework.web.service.annotation.PostExchange;
 
-import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
+import com.ubiqube.etsi.mano.mon.api.entities.BatchPollingJobDto;
 import com.ubiqube.etsi.mano.service.mon.dto.PollingJob;
 
-import org.jspecify.annotations.NonNull;
 import jakarta.validation.Valid;
 
 @HttpExchange(url = "/polling", accept = "application/json", contentType = "application/json")
 public interface MonPollingRemoteService {
 	@PostExchange
-	ResponseEntity<BatchPollingJob> register(final @Valid @NonNull @RequestBody PollingJob pj);
+	ResponseEntity<BatchPollingJobDto> register(final @Valid @NonNull @RequestBody PollingJob pj);
 
 	@GetExchange
-	ResponseEntity<List<BatchPollingJob>> list();
+	ResponseEntity<List<BatchPollingJobDto>> list();
 
 	@DeleteExchange("/{id}")
 	ResponseEntity<Void> delete(@PathVariable("id") @NonNull final UUID id);
