@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.jspecify.annotations.NonNull;
 
-import com.ubiqube.etsi.mano.service.mon.data.Metric;
+import com.ubiqube.etsi.mano.mon.api.entities.MetricDto;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.FetchType;
@@ -48,7 +48,7 @@ public class PollingJob {
 	@NotNull
 	@Size(min = 1)
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private List<Metric> metrics;
+	private List<MetricDto> metrics;
 
 	/**
 	 * Interval in seconds between polling ticks.

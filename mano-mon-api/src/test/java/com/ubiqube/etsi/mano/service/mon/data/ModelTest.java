@@ -46,9 +46,14 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ubiqube.etsi.mano.mon.api.entities.BatchPollingJobDto;
+import com.ubiqube.etsi.mano.mon.api.entities.MetricDto;
 import com.ubiqube.etsi.mano.mon.dao.AllHostMetrics;
 import com.ubiqube.etsi.mano.service.mon.dto.ConnInfo;
+import com.ubiqube.etsi.mano.service.mon.dto.FailureDetailsDto;
+import com.ubiqube.etsi.mano.service.mon.dto.MonConnInformationDto;
 import com.ubiqube.etsi.mano.service.mon.dto.PollingJob;
+import com.ubiqube.etsi.mano.service.mon.dto.StatusTypeDto;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.EqualsVerifierReport;
@@ -72,21 +77,16 @@ class ModelTest {
 
 	private static Stream<Arguments> providerClass() {
 		return Stream.of(
-				Arguments.of(AuthentificationInformations.class),
-				Arguments.of(AuthParamBasic.class),
-				Arguments.of(AuthParamOauth2.class),
-				Arguments.of(AuthType.class),
-				Arguments.of(BatchPollingJob.class),
-				Arguments.of(FailureDetails.class),
+				Arguments.of(BatchPollingJobDto.class),
+				Arguments.of(FailureDetailsDto.class),
 				Arguments.of(JmsMetricHolder.class),
-				Arguments.of(Metric.class),
+				Arguments.of(MetricDto.class),
 				Arguments.of(MetricFunction.class),
-				Arguments.of(MonConnInformation.class),
-				Arguments.of(OAuth2GrantType.class),
+				Arguments.of(MonConnInformationDto.class),
 				Arguments.of(ConnInfo.class),
 				Arguments.of(PollingJob.class),
 				Arguments.of(AllHostMetrics.class),
-				Arguments.of(StatusType.class));
+				Arguments.of(StatusTypeDto.class));
 	}
 
 	public static void realHandle(final String x) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, IntrospectionException {

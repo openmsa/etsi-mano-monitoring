@@ -22,13 +22,12 @@ import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.ubiqube.etsi.mano.service.mon.data.MonConnInformation;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", defaultImpl = MonConnInformation.class, visible = true)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", defaultImpl = MonConnInformationDto.class, visible = true)
 @JsonSubTypes({
 		@JsonSubTypes.Type(value = KeystoneV3.class, name = "openstack-v3"),
 		@JsonSubTypes.Type(value = SnmpV2.class, name = "snmp"),

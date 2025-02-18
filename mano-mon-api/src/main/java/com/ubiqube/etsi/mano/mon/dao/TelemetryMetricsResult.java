@@ -22,8 +22,6 @@ import org.jspecify.annotations.NonNull;
 
 import com.ubiqube.etsi.mano.service.mon.data.MonitoringDataSlim;
 
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -48,10 +46,9 @@ public class TelemetryMetricsResult implements MonitoringDataSlim {
 
 	private String text;
 
-	private boolean error;
-
-	@Temporal(TemporalType.TIMESTAMP)
 	private OffsetDateTime time;
+
+	private boolean error;
 
 	public TelemetryMetricsResult() {
 		// Nothing.

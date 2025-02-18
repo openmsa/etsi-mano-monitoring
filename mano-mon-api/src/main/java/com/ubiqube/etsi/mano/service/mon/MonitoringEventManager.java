@@ -16,7 +16,7 @@
  */
 package com.ubiqube.etsi.mano.service.mon;
 
-import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
+import com.ubiqube.etsi.mano.mon.api.entities.BatchPollingJobDto;
 
 /**
  *
@@ -25,6 +25,6 @@ import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
  */
 public interface MonitoringEventManager {
 
-	void sendGetDataEvent(BatchPollingJob pmJob);
+	void sendGetDataEvent(BatchPollingJobDto pmJob);
 
 }

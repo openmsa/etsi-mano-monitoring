@@ -19,21 +19,21 @@ package com.ubiqube.etsi.mano.mon.api;
 import java.util.List;
 import java.util.UUID;
 
-import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
-import com.ubiqube.etsi.mano.service.mon.data.MonConnInformation;
-import com.ubiqube.etsi.mano.service.mon.dto.PollingJob;
-
 import org.jspecify.annotations.NonNull;
+
+import com.ubiqube.etsi.mano.mon.api.entities.BatchPollingJobDto;
+import com.ubiqube.etsi.mano.service.mon.dto.MonConnInformationDto;
+import com.ubiqube.etsi.mano.service.mon.dto.PollingJob;
 
 public interface MonApi {
 
-	BatchPollingJob register(@NonNull PollingJob pj);
+	BatchPollingJobDto register(@NonNull PollingJob pj);
 
 	void delete(@NonNull UUID id);
 
-	List<BatchPollingJob> list();
+	List<BatchPollingJobDto> list();
 
-	List<MonConnInformation> listConnections();
+	List<MonConnInformationDto> listConnections();
 
 	void deleteConnection(@NonNull UUID id);
 }

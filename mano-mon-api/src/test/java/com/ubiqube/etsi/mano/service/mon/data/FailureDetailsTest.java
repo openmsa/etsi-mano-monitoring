@@ -20,6 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
 
+import com.ubiqube.etsi.mano.service.mon.dto.FailureDetailsDto;
+
 /**
  *
  * @author Olivier Vignaud
@@ -29,7 +31,7 @@ class FailureDetailsTest {
 
 	@Test
 	void test() {
-		final FailureDetails srv = new FailureDetails(1, "detail");
+		final FailureDetailsDto srv = new FailureDetailsDto(1, "detail");
 		assertNotNull(srv);
 	}
 

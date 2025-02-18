@@ -20,11 +20,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
 
+import com.ubiqube.etsi.mano.mon.api.entities.MetricDto;
+
 class MetricTest {
 
 	@Test
 	void test() {
-		final Metric m = new Metric("name", "type");
+		final MetricDto m = new MetricDto("name", "type");
 		assertNotNull(m);
 	}
 
