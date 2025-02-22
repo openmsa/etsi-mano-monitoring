@@ -23,9 +23,11 @@ import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Entity
 @SuperBuilder
