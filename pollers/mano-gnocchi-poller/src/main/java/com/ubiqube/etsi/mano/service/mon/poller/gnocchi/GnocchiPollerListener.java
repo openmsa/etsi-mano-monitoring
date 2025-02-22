@@ -94,16 +94,16 @@ public class GnocchiPollerListener {
 			res = os.telemetry().gnocchi().mesures().read(x.getValue());
 		} catch (final RuntimeException e) {
 			LOG.warn("An error occured.", e);
-			return new TelemetryMetricsResult(jobStr, resourceId, x.getKey(), Double.valueOf(0), null, OffsetDateTime.now(), false);
+			return new TelemetryMetricsResult(jobStr, resourceId, x.getKey(), Double.valueOf(0), null, OffsetDateTime.now(), true);
 		}
 		if (res.isEmpty()) {
 			LOG.warn("Metric {} is empty.", x.getValue());
-			return new TelemetryMetricsResult(jobStr, resourceId, x.getKey(), Double.valueOf(0), null, OffsetDateTime.now(), false);
+			return new TelemetryMetricsResult(jobStr, resourceId, x.getKey(), Double.valueOf(0), null, OffsetDateTime.now(), true);
 		}
 		final int idx = res.size() - 1;
 		final Double value = res.get(idx).getValue();
 		final OffsetDateTime ts = res.get(idx).getTimeStamp();
-		return new TelemetryMetricsResult(jobStr, resourceId, x.getKey(), value, null, ts, true);
+		return new TelemetryMetricsResult(jobStr, resourceId, x.getKey(), value, null, ts, false);
 	}
 
 	private String resolvQueueName(final String queueName) {
@@ -115,7 +115,7 @@ public class GnocchiPollerListener {
 
 	private static List<? extends MonitoringDataSlim> prepareErrors(final UUID jobId, final List<Metric> collectedMetrics, final String resourceId) {
 		return collectedMetrics.stream()
-				.map(x -> new TelemetryMetricsResult(jobId.toString(), resourceId, x.getMetricName(), 0d, null, OffsetDateTime.now(), false))
+				.map(x -> new TelemetryMetricsResult(jobId.toString(), resourceId, x.getMetricName(), 0d, null, OffsetDateTime.now(), true))
 				.toList();
 	}
 
