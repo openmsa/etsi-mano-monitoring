@@ -16,6 +16,8 @@
  */
 package com.ubiqube.etsi.mano.mon.core.mapper;
 
+import java.util.List;
+
 import org.jspecify.annotations.Nullable;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -26,7 +28,9 @@ import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.ai.KeystoneAuthV3;
 import com.ubiqube.etsi.mano.dao.mano.ai.SnmpV3Auth;
 import com.ubiqube.etsi.mano.dao.mano.ii.OpenstackV3InterfaceInfo;
+import com.ubiqube.etsi.mano.mon.api.entities.MetricDto;
 import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
+import com.ubiqube.etsi.mano.service.mon.data.Metric;
 import com.ubiqube.etsi.mano.service.mon.data.MonConnInformation;
 import com.ubiqube.etsi.mano.service.mon.data.MonKeystoneV3;
 import com.ubiqube.etsi.mano.service.mon.data.MonSnmpV2;
@@ -46,13 +50,7 @@ public interface PollingJobMapper {
 	@Mapping(target = "lastRun", ignore = true)
 	BatchPollingJob fromDto(PollingJob pj);
 
-	@Mapping(target = "interfaceInfo", ignore = true)
-	@Mapping(target = "failureDetails", ignore = true)
-	@Mapping(target = "id", ignore = true)
-	@Mapping(target = "serverStatus", ignore = true)
-	@Mapping(target = "version", ignore = true)
-	@Mapping(source = "connId", target = "connId")
-	@Mapping(source = "type", target = "connType")
+	List<Metric> map(List<MetricDto> metrics);
 
 	@Nullable
 	default MonConnInformation fromDto(@Nullable final ConnInfo ci) {
@@ -86,10 +84,13 @@ public interface PollingJobMapper {
 		return conn;
 	}
 
+	@Mapping(target = "id", ignore = true)
 	SnmpV2AuthInfo mapSnmpv2(SnmpV2 snmp);
 
+	@Mapping(target = "id", ignore = true)
 	SnmpV3Auth mapSnmpv3(SnmpV3 snmp);
 
+	@Mapping(target = "id", ignore = true)
 	KeystoneAuthV3 map(KeystoneV3 keystone);
 
 }
