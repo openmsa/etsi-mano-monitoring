@@ -16,20 +16,23 @@
  */
 package com.ubiqube.etsi.mano.mon.core.service;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.ubiqube.etsi.mano.mon.api.entities.MetricDto;
 import com.ubiqube.etsi.mano.mon.core.mapper.PollingJobMapper;
 import com.ubiqube.etsi.mano.mon.core.service.mapper.BatchPollingJobMapper;
 import com.ubiqube.etsi.mano.mon.core.service.mapper.MonConnInformationMapper;
@@ -44,21 +47,24 @@ class MonApiImplTest {
 	private ConnectionInformationService connRepo;
 	@Mock
 	private PollingJobService pollingJobRepo;
-	private final PollingJobMapper pollMapper = null; // Mappers.getMapper(PollingJobMapper.class);
+	private final PollingJobMapper pollMapper = Mappers.getMapper(PollingJobMapper.class);
 	private final MonConnInformationMapper monConnInformationMapper = Mappers.getMapper(MonConnInformationMapper.class);
 	private final BatchPollingJobMapper batchPollingJobMapper = Mappers.getMapper(BatchPollingJobMapper.class);
+	private MonApiImpl api;
 
-	private MonApiImpl extracted() {
+	@BeforeEach
+	void setup() {
 		ConnectionDeclaration cd = new TestConnectionDeclaration();
-		return new MonApiImpl(pollingJobRepo, connRepo, List.of(cd), pollMapper, monConnInformationMapper, batchPollingJobMapper);
+		api = new MonApiImpl(pollingJobRepo, connRepo, List.of(cd), pollMapper, monConnInformationMapper, batchPollingJobMapper);
 	}
 
 	@Test
-	@Disabled
 	void testRegister() {
-		final MonApiImpl api = extracted();
 		final PollingJob pj = new PollingJob();
 		pj.setResourceId("r");
+		List<MetricDto> lst = new ArrayList<>();
+		lst.add(new MetricDto());
+		pj.setMetrics(lst);
 		final ConnInfo connInfo = new ConnInfo();
 		connInfo.setType("conn-test");
 		pj.setConnection(connInfo);
@@ -67,13 +73,28 @@ class MonApiImplTest {
 	}
 
 	@Test
-	@Disabled
+	void testRegisterBadType() {
+		final PollingJob pj = new PollingJob();
+		pj.setResourceId("r");
+		List<MetricDto> lst = new ArrayList<>();
+		lst.add(new MetricDto());
+		pj.setMetrics(lst);
+		final ConnInfo connInfo = new ConnInfo();
+		connInfo.setType("bad-test");
+		pj.setConnection(connInfo);
+		assertThrows(IllegalArgumentException.class, () -> api.register(pj));
+	}
+
+	@Test
 	void testRegisterAllready() {
-		final MonApiImpl api = extracted();
 		final PollingJob pj = new PollingJob();
 		final ConnInfo connInfo = new ConnInfo();
+		connInfo.setType("conn-test");
 		pj.setConnection(connInfo);
 		pj.setResourceId("r");
+		List<MetricDto> lst = new ArrayList<>();
+		lst.add(new MetricDto());
+		pj.setMetrics(lst);
 		final MonConnInformation monConn = new MonConnInformation();
 		when(connRepo.findByConnId(any())).thenReturn(Optional.of(monConn));
 		api.register(pj);
@@ -82,28 +103,24 @@ class MonApiImplTest {
 
 	@Test
 	void testDelete() {
-		final MonApiImpl api = extracted();
 		api.delete(null);
 		assertTrue(true);
 	}
 
 	@Test
 	void testList() {
-		final MonApiImpl api = extracted();
 		api.list();
 		assertTrue(true);
 	}
 
 	@Test
 	void testlistConnections() {
-		final MonApiImpl api = extracted();
 		api.listConnections();
 		assertTrue(true);
 	}
 
 	@Test
 	void testDeleteConnection() {
-		final MonApiImpl api = extracted();
 		api.deleteConnection(null);
 		assertTrue(true);
 	}

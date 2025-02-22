@@ -21,9 +21,8 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 
 import org.jspecify.annotations.Nullable;
+
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
