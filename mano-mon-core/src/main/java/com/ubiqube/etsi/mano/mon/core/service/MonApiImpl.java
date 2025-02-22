@@ -96,7 +96,7 @@ public class MonApiImpl implements MonApi {
 		final List<BatchPollingJob> ret = new ArrayList<>();
 		final Iterable<BatchPollingJob> ite = pollingJobRepository.findAll();
 		ite.forEach(ret::add);
-		return batchPollingJobMapper.fromEntity(ret);
+		return ret.stream().map(batchPollingJobMapper::fromEntity).toList();
 	}
 
 	@Override
