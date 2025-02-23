@@ -20,12 +20,14 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Objects;
 
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.snmp4j.PDU;
-import org.snmp4j.smi.Counter32;
 import org.snmp4j.smi.Counter64;
 import org.snmp4j.smi.Integer32;
+import org.snmp4j.smi.Null;
 import org.snmp4j.smi.OID;
 import org.snmp4j.smi.OctetString;
 import org.snmp4j.smi.UnsignedInteger32;
@@ -43,8 +45,6 @@ import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
 import com.ubiqube.etsi.mano.service.mon.data.JmsMetricHolder;
 import com.ubiqube.etsi.mano.service.mon.data.Metric;
 import com.ubiqube.etsi.mano.service.mon.data.MonitoringDataSlim;
-
-import org.jspecify.annotations.NonNull;
 
 public abstract class AbstractSnmpPoller<I extends InterfaceInfo, A extends AccessInfo> {
 	private static final Logger LOG = LoggerFactory.getLogger(AbstractSnmpPoller.class);
@@ -89,37 +89,35 @@ public abstract class AbstractSnmpPoller<I extends InterfaceInfo, A extends Acce
 
 	private TelemetryMetricsResult map(final BatchPollingJob<I, A> pj, final Metric x, final PDU resp) {
 		final Variable variable = resp.getVariable(new OID(x.getMetricName()));
-		double value = 0;
-		boolean success = false;
-		if (variable != null) {
-			value = extractValue(variable);
-			success = true;
+		final TelemetryMetricsResult tmr = new TelemetryMetricsResult(pj.getId().toString(), x.getMetricName(), x.getMetricName(), null, null, OffsetDateTime.now(), true);
+		if ((null == variable) || (variable instanceof Null)) {
+			return tmr;
 		}
-		final TelemetryMetricsResult tmr = new TelemetryMetricsResult(pj.getId().toString(), x.getMetricName(), x.getMetricName(), value, null, OffsetDateTime.now(), success);
+		Double value = extractValue(variable);
+		if (value != null) {
+			tmr.setValue(value);
+			tmr.setError(false);
+		}
 		if (variable instanceof final OctetString os) {
 			tmr.setText(os.toString());
+			tmr.setError(false);
 		}
 		return tmr;
 	}
 
-	private static double extractValue(final Variable variable) {
+	@Nullable
+	private static Double extractValue(final Variable variable) {
 		if (variable instanceof final Counter64 c64) {
-			return c64.getValue();
-		}
-		if (variable instanceof final Counter32 c32) {
-			return c32.getValue();
-		}
-		if (variable instanceof final Integer32 i32) {
-			return i32.getValue();
+			return (double) c64.getValue();
 		}
 		if (variable instanceof final UnsignedInteger32 ui32) {
-			return ui32.getValue();
+			return (double) ui32.getValue();
 		}
-		if (variable instanceof OctetString) {
-			return 0;
+		if (variable instanceof final Integer32 i32) {
+			return (double) i32.getValue();
 		}
 		LOG.warn("Could not find variable type: {}", variable.getClass().getSimpleName());
-		return 0;
+		return null;
 	}
 
 	@NonNull
