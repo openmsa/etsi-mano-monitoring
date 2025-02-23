@@ -19,6 +19,7 @@ package com.ubiqube.etsi.mano.service.mon.poller.snmp;
 import java.io.IOException;
 import java.util.List;
 
+import org.jspecify.annotations.NonNull;
 import org.snmp4j.CommunityTarget;
 import org.snmp4j.PDU;
 import org.snmp4j.Snmp;
@@ -41,8 +42,6 @@ import com.ubiqube.etsi.mano.mon.MonGenericException;
 import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
 import com.ubiqube.etsi.mano.service.mon.data.Metric;
 import com.ubiqube.etsi.mano.service.mon.data.MonConnInformation;
-
-import org.jspecify.annotations.NonNull;
 
 @Service
 public class SnmpPoller extends AbstractSnmpPoller<InterfaceInfo, SnmpV2AuthInfo> {
@@ -72,7 +71,7 @@ public class SnmpPoller extends AbstractSnmpPoller<InterfaceInfo, SnmpV2AuthInfo
 			final CommunityTarget<Address> target = new CommunityTarget<>();
 			target.setCommunity(new OctetString(community));
 			target.setAddress(address);
-			target.setVersion(SnmpConstants.version1);
+			target.setVersion(SnmpConstants.version2c);
 
 			final ResponseEvent<Address> response = snmp.send(pdu, target);
 			return response.getResponse();
@@ -89,7 +88,7 @@ public class SnmpPoller extends AbstractSnmpPoller<InterfaceInfo, SnmpV2AuthInfo
 				.map(VariableBinding::new)
 				.toList();
 		pdu.addAll(oids);
-		pdu.setType(PDU.GETNEXT);
+		pdu.setType(PDU.GET);
 		return pdu;
 	}
 }
