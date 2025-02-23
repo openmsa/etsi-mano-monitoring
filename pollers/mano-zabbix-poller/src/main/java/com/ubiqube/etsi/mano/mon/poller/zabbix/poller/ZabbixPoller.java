@@ -71,7 +71,7 @@ public class ZabbixPoller {
 
 	private TelemetryMetricsResult map(final BatchPollingJob<InterfaceInfo, AccessInfo> pj, final String host, final int port, final Metric x) {
 		try {
-			final TelemetryMetricsResult tmr = new TelemetryMetricsResult(pj.getId().toString(), pj.getResourceId(), x.getMetricName(), null, null, OffsetDateTime.now(), true);
+			final TelemetryMetricsResult tmr = new TelemetryMetricsResult(pj.getId().toString(), pj.getResourceId(), x.getMetricName(), null, null, OffsetDateTime.now(), false);
 			final List<String> res = zmq.result(host, port, x.getMetricName());
 			if (!isSupported(res)) {
 				tmr.setError(true);
@@ -85,7 +85,7 @@ public class ZabbixPoller {
 			return tmr;
 		} catch (final RuntimeException e) {
 			LOG.warn("Error while fetching {}", host, e);
-			return new TelemetryMetricsResult(pj.getId().toString(), pj.getResourceId(), x.getMetricName(), null, null, OffsetDateTime.now(), false);
+			return new TelemetryMetricsResult(pj.getId().toString(), pj.getResourceId(), x.getMetricName(), null, null, OffsetDateTime.now(), true);
 		}
 	}
 
@@ -109,7 +109,7 @@ public class ZabbixPoller {
 			return resourceId;
 		}
 
-		return resourceId.substring(0, pos - 1);
+		return resourceId.substring(0, pos);
 	}
 
 	private static int getPort(final String resourceId) {
