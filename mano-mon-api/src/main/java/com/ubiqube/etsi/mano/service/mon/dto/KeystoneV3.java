@@ -26,7 +26,7 @@ public class KeystoneV3 extends ConnInfo {
 	 * The OpenStack region to use for the VIM connection.
 	 */
 	@NotNull
-	private final String region = "RegionOne";
+	private String region = "RegionOne";
 	/**
 	 * The OpenStack project to use for the VIM connection.
 	 */
