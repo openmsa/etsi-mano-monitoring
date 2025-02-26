@@ -90,10 +90,7 @@ public class ZabbixPoller {
 	}
 
 	private boolean isSupported(final List<String> res) {
-		if (res.isEmpty() || "ZBX_NOTSUPPORTED".equals(res.get(0))) {
-			return false;
-		}
-		return true;
+		return (!res.isEmpty() && !"ZBX_NOTSUPPORTED".equals(res.get(0)));
 	}
 
 	private String resolvQueueName(final String queueName) {
