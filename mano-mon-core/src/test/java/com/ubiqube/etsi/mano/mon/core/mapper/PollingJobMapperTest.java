@@ -22,7 +22,7 @@ class PollingJobMapperTest {
 	private PodamFactoryImpl podam;
 
 	@BeforeEach
-	void setUp() throws Exception {
+	void setUp() {
 		podam = new PodamFactoryImpl();
 		podam.getStrategy().setDefaultNumberOfCollectionElements(1);
 	}
