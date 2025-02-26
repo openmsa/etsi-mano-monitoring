@@ -28,7 +28,6 @@
 		<dependency>
 			<groupId>com.ubiqube.mano.service.mon</groupId>
 			<artifactId>mano-mon-api</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>net.java.dev.jna</groupId>
@@ -48,6 +47,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.opendaylight.ovsdb</groupId>
