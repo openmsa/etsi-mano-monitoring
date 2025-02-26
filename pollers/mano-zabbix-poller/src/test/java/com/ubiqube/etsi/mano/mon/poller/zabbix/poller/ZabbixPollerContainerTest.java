@@ -71,7 +71,6 @@ class ZabbixPollerContainerTest {
 		job.setConnection(createConnection());
 		job.setMetrics(List.of());
 		// queue
-		ConfigurableListableBeanFactory clbf = mock(ConfigurableListableBeanFactory.class);
 		when(configurableApplicationContext.getBeanFactory()).thenReturn(clbf);
 		when(clbf.resolveEmbeddedValue(any())).thenReturn("queue");
 		zabbixPoller.onEvent(job);
