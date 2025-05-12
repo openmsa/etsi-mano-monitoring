@@ -40,17 +40,19 @@ public class FailureDetailsDto implements Serializable {
 
 	private String instance;
 
+	private Long status;
+
 	public FailureDetailsDto() {
 		// Nothing.
 	}
 
-	public FailureDetailsDto(final long _status, final String _detail) {
+	public FailureDetailsDto(final Long _status, final String _detail) {
 		try {
 			instance = URI.create("http//" + InetAddress.getLocalHost().getCanonicalHostName()).toString();
 		} catch (final UnknownHostException e) {
 			LOG.warn("", e);
 		}
-		long status = _status;
+		status = _status;
 		detail = _detail;
 	}
 

@@ -31,7 +31,7 @@ class FailureDetailsTest {
 
 	@Test
 	void test() {
-		final FailureDetailsDto srv = new FailureDetailsDto(1, "detail");
+		final FailureDetailsDto srv = new FailureDetailsDto(1L, "detail");
 		assertNotNull(srv);
 	}
 
