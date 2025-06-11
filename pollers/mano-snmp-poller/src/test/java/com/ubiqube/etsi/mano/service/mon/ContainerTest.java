@@ -62,7 +62,7 @@ class ContainerTest {
 	private Snmp3Poller snmpPoller3;
 
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 		port = snmpd.getSnmpPort();
 		snmpPoller = new SnmpPoller(jmsTemplate, configurableApplicationContext);
 		snmpPoller3 = new Snmp3Poller(jmsTemplate, configurableApplicationContext);
