@@ -36,6 +36,7 @@ class ZabbixMetricQueryTest {
 		String res = ZabbixMetricQuery.bytesToHex("012345ABCDEF".getBytes());
 		assertEquals("303132333435414243444546", res);
 		assertTrue(true);
+		zmq.getClass();
 	}
 
 }
