@@ -27,6 +27,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpHeaders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -43,65 +44,65 @@ import jakarta.persistence.criteria.Root;
 
 @ExtendWith(MockitoExtension.class)
 class JpaSearchServiceTest {
-    @Mock
-    private MonitoringDataJpa monitoringDataJpa;
-    @Mock
-    private EntityManager em;
-    @Mock
-    MonitoringDataProjection mdp;
-    @Mock
-    private CriteriaBuilder cb;
-    @Mock
-    private CriteriaQuery<MonitoringData> cq;
-    @Mock
-    private TypedQuery<MonitoringData> tq;
-    @Mock
-    private Root<MonitoringData> root;
+	@Mock
+	private MonitoringDataJpa monitoringDataJpa;
+	@Mock
+	private EntityManager em;
+	@Mock
+	MonitoringDataProjection mdp;
+	@Mock
+	private CriteriaBuilder cb;
+	@Mock
+	private CriteriaQuery<MonitoringData> cq;
+	@Mock
+	private TypedQuery<MonitoringData> tq;
+	@Mock
+	private Root<MonitoringData> root;
 
-    @Test
-    void testSearch2() {
-        final JpaSearchService srv = new JpaSearchService(monitoringDataJpa, em);
-        assertThrows(MonGenericException.class, () -> srv.findByObjectIdAndKey(null, null));
-        assertTrue(true);
-    }
+	@Test
+	void testSearch2() {
+		final JpaSearchService srv = new JpaSearchService(monitoringDataJpa, em);
+		assertThrows(MonGenericException.class, () -> srv.findByObjectIdAndKey(null, null));
+		assertTrue(true);
+	}
 
-    @Test
-    void test() {
-        final JpaSearchService srv = new JpaSearchService(monitoringDataJpa, em);
-        when(monitoringDataJpa.getLastMetrics(null, null)).thenReturn(List.of(mdp));
-        final Timestamp tim = new Timestamp(12345L);
-        when(mdp.getTime()).thenReturn(tim);
-        srv.findByObjectIdAndKey(null, null);
-        assertTrue(true);
-    }
+	@Test
+	void test() {
+		final JpaSearchService srv = new JpaSearchService(monitoringDataJpa, em);
+		when(monitoringDataJpa.getLastMetrics(null, null)).thenReturn(List.of(mdp));
+		final Timestamp tim = new Timestamp(12345L);
+		when(mdp.getTime()).thenReturn(tim);
+		srv.findByObjectIdAndKey(null, null);
+		assertTrue(true);
+	}
 
-    @Test
-    void testSearch1Empty() {
-        final JpaSearchService srv = new JpaSearchService(monitoringDataJpa, em);
-        final MultiValueMap<String, String> param = new LinkedMultiValueMap<>();
-        when(em.getCriteriaBuilder()).thenReturn(cb);
-        when(cb.createQuery(MonitoringData.class)).thenReturn(cq);
-        when(em.createQuery(cq)).thenReturn(tq);
-        when(tq.getResultList()).thenReturn(List.of());
-        srv.search(param);
-        assertTrue(true);
-    }
+	@Test
+	void testSearch1Empty() {
+		final JpaSearchService srv = new JpaSearchService(monitoringDataJpa, em);
+		final MultiValueMap<String, String> param = new LinkedMultiValueMap<>();
+		when(em.getCriteriaBuilder()).thenReturn(cb);
+		when(cb.createQuery(MonitoringData.class)).thenReturn(cq);
+		when(em.createQuery(cq)).thenReturn(tq);
+		when(tq.getResultList()).thenReturn(List.of());
+		srv.search(param);
+		assertTrue(true);
+	}
 
-    @Test
-    void testSearch1() {
-        final JpaSearchService srv = new JpaSearchService(monitoringDataJpa, em);
-        final MultiValueMap<String, String> param = new LinkedMultiValueMap<>();
-        param.add("key", "value");
-        param.put("blank", List.of());
-        when(em.getCriteriaBuilder()).thenReturn(cb);
-        when(cb.createQuery(MonitoringData.class)).thenReturn(cq);
-        when(cq.from(MonitoringData.class)).thenReturn(root);
-        when(em.createQuery(cq)).thenReturn(tq);
-        final MonitoringData res = new MonitoringData();
-        res.setMasterJobId("Hello");
-        when(tq.getResultList()).thenReturn(List.of(res));
-        srv.search(param);
-        assertTrue(true);
-    }
+	@Test
+	void testSearch1() {
+		final JpaSearchService srv = new JpaSearchService(monitoringDataJpa, em);
+		final MultiValueMap<String, String> param = new LinkedMultiValueMap<String, String>();
+		param.add("key", "value");
+		param.put("blank", List.of());
+		when(em.getCriteriaBuilder()).thenReturn(cb);
+		when(cb.createQuery(MonitoringData.class)).thenReturn(cq);
+		when(cq.from(MonitoringData.class)).thenReturn(root);
+		when(em.createQuery(cq)).thenReturn(tq);
+		final MonitoringData res = new MonitoringData();
+		res.setMasterJobId("Hello");
+		when(tq.getResultList()).thenReturn(List.of(res));
+		srv.search(param);
+		assertTrue(true);
+	}
 
 }
