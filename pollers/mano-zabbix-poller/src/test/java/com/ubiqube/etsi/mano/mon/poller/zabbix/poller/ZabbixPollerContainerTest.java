@@ -16,7 +16,6 @@
  */
 package com.ubiqube.etsi.mano.mon.poller.zabbix.poller;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
