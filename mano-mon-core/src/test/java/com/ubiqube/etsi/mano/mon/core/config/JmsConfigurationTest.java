@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
+import org.springframework.boot.jms.autoconfigure.DefaultJmsListenerContainerFactoryConfigurer;
 import org.springframework.jms.support.converter.MessageConverter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
